@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.app.JanathaBazaar">
+
+    <application
+        android:name="com.app.JanathaBazaar.Bean"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+
+        <activity android:name="com.app.JanathaBazaar.Address"></activity>
+        <activity android:name="com.app.JanathaBazaar.Web" />
+        <activity
+            android:name="com.app.JanathaBazaar.OrderDetails"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.app.JanathaBazaar.OTP"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.app.JanathaBazaar.Location"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.app.JanathaBazaar.Search"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.app.JanathaBazaar.Orders"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.app.JanathaBazaar.Checkout"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.app.JanathaBazaar.Cart"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.app.JanathaBazaar.SingleProduct"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.app.JanathaBazaar.Products"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.app.JanathaBazaar.SubCat"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.app.JanathaBazaar.Category"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.app.JanathaBazaar.Login"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.app.JanathaBazaar.Spalsh"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.app.JanathaBazaar.MainActivity" />
+        <activity android:name="com.app.JanathaBazaar.WebViewActivity" />
+
+        <service
+            android:name="com.app.JanathaBazaar.MyFirebaseMessagingService"
+            android:permission="">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/loggg" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorAccent" />
+        <!--
+ Set custom default icon. This is used when no icon is set for incoming notification messages.
+     See README(https://goo.gl/l4GJaQ) for more.
+        -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/default_notification_channel_id" />
+    </application>
+
+</manifest>
