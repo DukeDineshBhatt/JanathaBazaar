@@ -69,7 +69,7 @@ public class Category extends AppCompatActivity {
 
 
         adapter = new CategoryAdapter(this, list);
-        GridLayoutManager manager = new GridLayoutManager(this, 1);
+        GridLayoutManager manager = new GridLayoutManager(this, 3);
 
         grid.setAdapter(adapter);
         grid.setLayoutManager(manager);
@@ -141,7 +141,7 @@ public class Category extends AppCompatActivity {
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
-            View view = inflater.inflate(R.layout.category_list_model, parent, false);
+            View view = inflater.inflate(R.layout.category_list_model1, parent, false);
             return new ViewHolder(view);
         }
 
@@ -155,10 +155,7 @@ public class Category extends AppCompatActivity {
             ImageLoader loader = ImageLoader.getInstance();
             loader.displayImage(item.getImage(), holder.image, options);
 
-            holder.tag.setText(item.getTag());
             holder.title.setText(item.getName());
-            holder.desc.setText(item.getDescription());
-
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -167,6 +164,7 @@ public class Category extends AppCompatActivity {
                     Intent intent = new Intent(context, SubCat.class);
                     intent.putExtra("id", item.getId());
                     intent.putExtra("title", item.getName());
+                    intent.putExtra("image", item.getImage());
                     context.startActivity(intent);
 
                 }
@@ -189,9 +187,8 @@ public class Category extends AppCompatActivity {
                 super(itemView);
 
                 image = itemView.findViewById(R.id.imageView5);
-                tag = itemView.findViewById(R.id.textView17);
                 title = itemView.findViewById(R.id.textView18);
-                desc = itemView.findViewById(R.id.textView19);
+
 
 
             }

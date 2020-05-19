@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -41,6 +42,7 @@ import com.app.JanathaBazaar.homePOJO.Cat;
 import com.app.JanathaBazaar.homePOJO.Member;
 import com.app.JanathaBazaar.homePOJO.homeBean;
 import com.app.JanathaBazaar.seingleProductPOJO.singleProductBean;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.santalu.autoviewpager.AutoViewPager;
@@ -66,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView bestSelling, offerBanners, todayDeals, member, categories;
     TextView readMore;
     ProgressBar progress;
-    BestAdapter adapter2 , adapter3;
+    BestAdapter adapter2, adapter3;
     OfferAdapter adapter4;
     MemberAdapter adapter5;
     CategoryAdapter adapter6;
@@ -76,8 +78,9 @@ public class MainActivity extends AppCompatActivity {
     List<Cat> list3;
     DrawerLayout drawer;
     EditText search;
+    BottomNavigationView navigation;
 
-    TextView login , logout , cart , orders , title , count , location , terms , about , rewards , address;
+    TextView login, logout, cart, orders, title, count, location, terms, about, rewards, address;
 
     ImageButton cart1;
 
@@ -114,28 +117,28 @@ public class MainActivity extends AppCompatActivity {
         address = findViewById(R.id.address);
         search = findViewById(R.id.search);
 
+        navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         drawer = findViewById(R.id.drawer);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open , R.string.navigation_drawer_close);
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+
         final String loc = SharePreferenceUtils.getInstance().getString("location");
 
-        if (loc.length() > 0)
-        {
+        if (loc.length() > 0) {
             title.setText(loc);
             location.setText(loc);
-        }
-        else
-        {
+        } else {
             title.setText("Agartala");
             location.setText("Agartala");
-            SharePreferenceUtils.getInstance().saveString("location" , "Agartala");
+            SharePreferenceUtils.getInstance().saveString("location", "Agartala");
         }
 
 
@@ -152,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
                 RecyclerView grid = dialog.findViewById(R.id.grid);
                 List<String> locs = new ArrayList<>();
 
-                GridLayoutManager manager = new GridLayoutManager(MainActivity.this , 1);
+                GridLayoutManager manager = new GridLayoutManager(MainActivity.this, 1);
 
                 locs.add("Agartala");
                 locs.add("Udaipur");
@@ -160,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
                 locs.add("Guwahati");
                 locs.add("Kolkata");
 
-                LocationAdapter adapter = new LocationAdapter(MainActivity.this , locs , dialog);
+                LocationAdapter adapter = new LocationAdapter(MainActivity.this, locs, dialog);
 
                 grid.setAdapter(adapter);
                 grid.setLayoutManager(manager);
@@ -175,7 +178,6 @@ public class MainActivity extends AppCompatActivity {
 
                 drawer.closeDrawer(GravityCompat.START);
 
-
                 Dialog dialog = new Dialog(MainActivity.this);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setCancelable(true);
@@ -185,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
                 RecyclerView grid = dialog.findViewById(R.id.grid);
                 List<String> locs = new ArrayList<>();
 
-                GridLayoutManager manager = new GridLayoutManager(MainActivity.this , 1);
+                GridLayoutManager manager = new GridLayoutManager(MainActivity.this, 1);
 
                 locs.add("Agartala");
                 locs.add("Udaipur");
@@ -193,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
                 locs.add("Guwahati");
                 locs.add("Kolkata");
 
-                LocationAdapter adapter = new LocationAdapter(MainActivity.this , locs , dialog);
+                LocationAdapter adapter = new LocationAdapter(MainActivity.this, locs, dialog);
 
                 grid.setAdapter(adapter);
                 grid.setLayoutManager(manager);
@@ -201,17 +203,46 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        adapter2 = new BestAdapter(this , list);
-        adapter3 = new BestAdapter(this , list);
-        adapter4 = new OfferAdapter(this , list1);
-        adapter5 = new MemberAdapter(this , list2);
-        adapter6 = new CategoryAdapter(this , list3);
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_home:
+                        break;
+                    case R.id.action_categories:
+                        Intent a = new Intent(MainActivity.this,Category.class);
+                        startActivity(a);
+                        break;
+                    case R.id.action_search:
+                        Intent b = new Intent(MainActivity.this,Search.class);
+                        startActivity(b);
+                        break;
+                    case R.id.action_cart:
+                        Intent c = new Intent(MainActivity.this,Cart.class);
+                        startActivity(c);
+                        break;
+                    case R.id.action_order:
+                        Intent d = new Intent(MainActivity.this,Orders.class);
+                        startActivity(d);
+                        break;
+                }
+                return false;
+            }
+        });
 
-        LinearLayoutManager manager1 = new LinearLayoutManager(this , RecyclerView.HORIZONTAL , false);
-        LinearLayoutManager manager2 = new LinearLayoutManager(this , RecyclerView.HORIZONTAL , false);
-        LinearLayoutManager manager3 = new LinearLayoutManager(this , RecyclerView.VERTICAL , false);
-        LinearLayoutManager manager4 = new LinearLayoutManager(this , RecyclerView.HORIZONTAL , false);
-        LinearLayoutManager manager5 = new GridLayoutManager(this , 3);
+
+        adapter2 = new BestAdapter(this, list);
+        adapter3 = new BestAdapter(this, list);
+        adapter4 = new OfferAdapter(this, list1);
+        adapter5 = new MemberAdapter(this, list2);
+        adapter6 = new CategoryAdapter(this, list3);
+
+        LinearLayoutManager manager1 = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
+        LinearLayoutManager manager2 = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
+        LinearLayoutManager manager3 = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+        LinearLayoutManager manager4 = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
+        LinearLayoutManager manager5 = new GridLayoutManager(this, 3);
 
         bestSelling.setAdapter(adapter2);
         bestSelling.setLayoutManager(manager1);
@@ -233,9 +264,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(MainActivity.this , Web.class);
-                intent.putExtra("title" , "Terms & Conditions");
-                intent.putExtra("url" , "https://mrtecks.com/grocery/terms.php");
+                Intent intent = new Intent(MainActivity.this, Web.class);
+                intent.putExtra("title", "Terms & Conditions");
+                intent.putExtra("url", "https://mrtecks.com/janathabazaar/api/terms.php");
                 startActivity(intent);
                 drawer.closeDrawer(GravityCompat.START);
 
@@ -246,9 +277,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(MainActivity.this , Web.class);
-                intent.putExtra("title" , "About Us");
-                intent.putExtra("url" , "https://mrtecks.com/grocery/about.php");
+                Intent intent = new Intent(MainActivity.this, Web.class);
+                intent.putExtra("title", "About Us");
+                intent.putExtra("url", "https://mrtecks.com/janathabazaar/api/about.php");
                 startActivity(intent);
                 drawer.closeDrawer(GravityCompat.START);
 
@@ -258,15 +289,12 @@ public class MainActivity extends AppCompatActivity {
 
         final String uid = SharePreferenceUtils.getInstance().getString("userId");
 
-        if (uid.length() > 0)
-        {
+        if (uid.length() > 0) {
             login.setText(SharePreferenceUtils.getInstance().getString("phone"));
             rewards.setText("REWARD POINTS - " + SharePreferenceUtils.getInstance().getString("rewards"));
             rewards.setVisibility(View.VISIBLE);
             getRew();
-        }
-        else
-        {
+        } else {
             rewards.setVisibility(View.GONE);
         }
 
@@ -275,9 +303,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 
 
-                if (uid.length() == 0)
-                {
-                    Intent intent = new Intent(MainActivity.this , Login.class);
+                if (uid.length() == 0) {
+                    Intent intent = new Intent(MainActivity.this, Login.class);
                     startActivity(intent);
                 }
 
@@ -285,18 +312,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if (uid.length() > 0)
-                {
-                    Intent intent = new Intent(MainActivity.this , Address.class);
+                if (uid.length() > 0) {
+                    Intent intent = new Intent(MainActivity.this, Address.class);
                     startActivity(intent);
-                }
-                else
-                {
+                } else {
                     Toast.makeText(MainActivity.this, "Please login to continue", Toast.LENGTH_SHORT).show();
                 }
 
@@ -312,7 +335,7 @@ public class MainActivity extends AppCompatActivity {
 
                 SharePreferenceUtils.getInstance().deletePref();
 
-                Intent intent = new Intent(MainActivity.this , Spalsh.class);
+                Intent intent = new Intent(MainActivity.this, Spalsh.class);
                 startActivity(intent);
                 finishAffinity();
 
@@ -323,13 +346,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (uid.length() > 0)
-                {
-                    Intent intent = new Intent(MainActivity.this , Cart.class);
+                if (uid.length() > 0) {
+                    Intent intent = new Intent(MainActivity.this, Cart.class);
                     startActivity(intent);
-                }
-                else
-                {
+                } else {
                     Toast.makeText(MainActivity.this, "Please login to continue", Toast.LENGTH_SHORT).show();
                 }
 
@@ -342,17 +362,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (uid.length() > 0)
-                {
-                    Intent intent = new Intent(MainActivity.this , Cart.class);
+               /* if (uid.length() > 0) {
+                    Intent intent = new Intent(MainActivity.this, Cart.class);
                     startActivity(intent);
-                }
-                else
-                {
+                } else {
                     Toast.makeText(MainActivity.this, "Please login to continue", Toast.LENGTH_SHORT).show();
                 }
 
-                drawer.closeDrawer(GravityCompat.START);
+                drawer.closeDrawer(GravityCompat.START);*/
 
             }
         });
@@ -361,13 +378,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (uid.length() > 0)
-                {
-                    Intent intent = new Intent(MainActivity.this , Orders.class);
+                if (uid.length() > 0) {
+                    Intent intent = new Intent(MainActivity.this, Orders.class);
                     startActivity(intent);
-                }
-                else
-                {
+                } else {
                     Toast.makeText(MainActivity.this, "Please login to continue", Toast.LENGTH_SHORT).show();
                 }
 
@@ -385,12 +399,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(MainActivity.this , Search.class);
+                Intent intent = new Intent(MainActivity.this, Search.class);
                 startActivity(intent);
 
             }
         });
     }
+
 
     @Override
     protected void onResume() {
@@ -420,11 +435,10 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<homeBean> call, Response<homeBean> response) {
 
 
-                if (response.body().getStatus().equals("1"))
-                {
+                if (response.body().getStatus().equals("1")) {
 
 
-                    BannerAdapter adapter1 = new BannerAdapter(getSupportFragmentManager() , response.body().getPbanner());
+                    BannerAdapter adapter1 = new BannerAdapter(getSupportFragmentManager(), response.body().getPbanner());
                     pager.setAdapter(adapter1);
 
                     adapter2.setData(response.body().getBest());
@@ -447,17 +461,15 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-loadCart();
+        loadCart();
 
 
     }
 
-    void loadCart()
-    {
+    void loadCart() {
         String uid = SharePreferenceUtils.getInstance().getString("userId");
 
-        if (uid.length() > 0)
-        {
+        if (uid.length() > 0) {
             Bean b = (Bean) getApplicationContext();
 
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
@@ -504,19 +516,16 @@ loadCart();
 
             getRew();
 
-        }
-        else
-        {
+        } else {
             count.setText("0");
         }
     }
 
-    class BannerAdapter extends FragmentStatePagerAdapter
-    {
+    class BannerAdapter extends FragmentStatePagerAdapter {
 
         List<Banners> blist = new ArrayList<>();
 
-        public BannerAdapter(FragmentManager fm , List<Banners> blist) {
+        public BannerAdapter(FragmentManager fm, List<Banners> blist) {
             super(fm);
             this.blist = blist;
         }
@@ -524,7 +533,7 @@ loadCart();
         @Override
         public Fragment getItem(int position) {
             page frag = new page();
-            frag.setData(blist.get(position).getImage() , blist.get(position).getCname() , blist.get(position).getCid());
+            frag.setData(blist.get(position).getImage(), blist.get(position).getCname(), blist.get(position).getCid());
             return frag;
         }
 
@@ -535,15 +544,13 @@ loadCart();
     }
 
 
-    public static class page extends Fragment
-    {
+    public static class page extends Fragment {
 
-        String url , tit , cid = "";
+        String url, tit, cid = "";
 
         ImageView image;
 
-        void setData(String url , String tit , String cid)
-        {
+        void setData(String url, String tit, String cid) {
             this.url = url;
             this.tit = tit;
             this.cid = cid;
@@ -552,27 +559,25 @@ loadCart();
         @Nullable
         @Override
         public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            View view = inflater.inflate(R.layout.banner_layout , container , false);
+            View view = inflater.inflate(R.layout.banner_layout, container, false);
 
             image = view.findViewById(R.id.imageView3);
 
             DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).resetViewBeforeLoading(false).build();
             ImageLoader loader = ImageLoader.getInstance();
-            loader.displayImage(url , image , options);
+            loader.displayImage(url, image, options);
 
 
             image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    if (cid != null)
-                    {
-                        Intent intent = new Intent(getContext() , SubCat.class);
-                        intent.putExtra("id" , cid);
-                        intent.putExtra("title" , tit);
+                    if (cid != null) {
+                        Intent intent = new Intent(getContext(), SubCat.class);
+                        intent.putExtra("id", cid);
+                        intent.putExtra("title", tit);
                         startActivity(intent);
                     }
-
 
 
                 }
@@ -583,20 +588,17 @@ loadCart();
         }
     }
 
-    class BestAdapter extends RecyclerView.Adapter<BestAdapter.ViewHolder>
-    {
+    class BestAdapter extends RecyclerView.Adapter<BestAdapter.ViewHolder> {
 
         Context context;
         List<Best> list = new ArrayList<>();
 
-        public BestAdapter(Context context , List<Best> list)
-        {
+        public BestAdapter(Context context, List<Best> list) {
             this.context = context;
             this.list = list;
         }
 
-        public void setData(List<Best> list)
-        {
+        public void setData(List<Best> list) {
             this.list = list;
             notifyDataSetChanged();
         }
@@ -604,8 +606,8 @@ loadCart();
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            LayoutInflater inflater = (LayoutInflater)context.getSystemService(LAYOUT_INFLATER_SERVICE);
-            View view = inflater.inflate(R.layout.best_list_model , parent , false);
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+            View view = inflater.inflate(R.layout.best_list_model, parent, false);
             return new ViewHolder(view);
         }
 
@@ -616,28 +618,24 @@ loadCart();
 
             DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).resetViewBeforeLoading(false).build();
             ImageLoader loader = ImageLoader.getInstance();
-            loader.displayImage(item.getImage() , holder.image , options);
+            loader.displayImage(item.getImage(), holder.image, options);
 
             float dis = Float.parseFloat(item.getDiscount());
 
             final String nv1;
 
-            if (item.getStock().equals("In stock"))
-            {
+            if (item.getStock().equals("In stock")) {
                 holder.add.setEnabled(true);
-            }
-            else
-            {
+            } else {
                 holder.add.setEnabled(false);
             }
 
             holder.stock.setText(item.getStock());
 
-            if (dis > 0)
-            {
+            if (dis > 0) {
 
                 float pri = Float.parseFloat(item.getPrice());
-                float dv = (dis / 100 ) * pri;
+                float dv = (dis / 100) * pri;
 
                 float nv = pri - dv;
 
@@ -646,9 +644,7 @@ loadCart();
                 holder.discount.setVisibility(View.VISIBLE);
                 holder.discount.setText(item.getDiscount() + "% OFF");
                 holder.price.setText(Html.fromHtml("<font color=\"#000000\"><b>\u20B9 " + String.valueOf(nv) + " </b></font><strike>\u20B9 " + item.getPrice() + "</strike>"));
-            }
-            else
-            {
+            } else {
 
                 nv1 = item.getPrice();
                 holder.discount.setVisibility(View.GONE);
@@ -662,9 +658,9 @@ loadCart();
                 @Override
                 public void onClick(View view) {
 
-                    Intent intent = new Intent(context , SingleProduct.class);
-                    intent.putExtra("id" , item.getId());
-                    intent.putExtra("title" , item.getName());
+                    Intent intent = new Intent(context, SingleProduct.class);
+                    intent.putExtra("id", item.getId());
+                    intent.putExtra("title", item.getName());
                     context.startActivity(intent);
 
                 }
@@ -676,8 +672,7 @@ loadCart();
 
                     String uid = SharePreferenceUtils.getInstance().getString("userId");
 
-                    if (uid.length() > 0)
-                    {
+                    if (uid.length() > 0) {
 
                         final Dialog dialog = new Dialog(context);
                         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -685,10 +680,9 @@ loadCart();
                         dialog.setContentView(R.layout.add_cart_dialog);
                         dialog.show();
 
-                        final StepperTouch stepperTouch  = dialog.findViewById(R.id.stepperTouch);
+                        final StepperTouch stepperTouch = dialog.findViewById(R.id.stepperTouch);
                         Button add = dialog.findViewById(R.id.button8);
                         final ProgressBar progressBar = dialog.findViewById(R.id.progressBar2);
-
 
 
                         stepperTouch.setMinValue(1);
@@ -719,22 +713,21 @@ loadCart();
                                         .build();
                                 AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-                                Log.d("userid" , SharePreferenceUtils.getInstance().getString("userid"));
-                                Log.d("pid" , item.getId());
-                                Log.d("quantity" , String.valueOf(stepperTouch.getCount()));
-                                Log.d("price" , nv1);
+                                Log.d("userid", SharePreferenceUtils.getInstance().getString("userid"));
+                                Log.d("pid", item.getId());
+                                Log.d("quantity", String.valueOf(stepperTouch.getCount()));
+                                Log.d("price", nv1);
 
                                 int versionCode = BuildConfig.VERSION_CODE;
                                 String versionName = BuildConfig.VERSION_NAME;
 
-                                Call<singleProductBean> call = cr.addCart(SharePreferenceUtils.getInstance().getString("userId") , item.getId() , String.valueOf(stepperTouch.getCount()), nv1 , versionName);
+                                Call<singleProductBean> call = cr.addCart(SharePreferenceUtils.getInstance().getString("userId"), item.getId(), String.valueOf(stepperTouch.getCount()), nv1, versionName);
 
                                 call.enqueue(new Callback<singleProductBean>() {
                                     @Override
                                     public void onResponse(Call<singleProductBean> call, Response<singleProductBean> response) {
 
-                                        if (response.body().getStatus().equals("1"))
-                                        {
+                                        if (response.body().getStatus().equals("1")) {
                                             //loadCart();
                                             dialog.dismiss();
                                             loadCart();
@@ -756,11 +749,9 @@ loadCart();
                             }
                         });
 
-                    }
-                    else
-                    {
+                    } else {
                         Toast.makeText(context, "Please login to continue", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(context , Login.class);
+                        Intent intent = new Intent(context, Login.class);
                         context.startActivity(intent);
 
                     }
@@ -775,11 +766,10 @@ loadCart();
             return list.size();
         }
 
-        class ViewHolder extends RecyclerView.ViewHolder
-        {
+        class ViewHolder extends RecyclerView.ViewHolder {
 
             ImageView image;
-            TextView price , title , discount , stock;
+            TextView price, title, discount, stock;
             TextView add;
 
             public ViewHolder(@NonNull View itemView) {
@@ -793,25 +783,21 @@ loadCart();
                 stock = itemView.findViewById(R.id.textView63);
 
 
-
             }
         }
     }
 
-    class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.ViewHolder>
-    {
+    class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.ViewHolder> {
 
         Context context;
         List<Banners> list = new ArrayList<>();
 
-        public OfferAdapter(Context context , List<Banners> list)
-        {
+        public OfferAdapter(Context context, List<Banners> list) {
             this.context = context;
             this.list = list;
         }
 
-        public void setData(List<Banners> list)
-        {
+        public void setData(List<Banners> list) {
             this.list = list;
             notifyDataSetChanged();
         }
@@ -819,8 +805,8 @@ loadCart();
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            LayoutInflater inflater = (LayoutInflater)context.getSystemService(LAYOUT_INFLATER_SERVICE);
-            View view = inflater.inflate(R.layout.best_list_model1 , parent , false);
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+            View view = inflater.inflate(R.layout.best_list_model1, parent, false);
             return new ViewHolder(view);
         }
 
@@ -831,8 +817,7 @@ loadCart();
 
             DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).resetViewBeforeLoading(false).build();
             ImageLoader loader = ImageLoader.getInstance();
-            loader.displayImage(item.getImage() , holder.image , options);
-
+            loader.displayImage(item.getImage(), holder.image, options);
 
 
         }
@@ -842,8 +827,7 @@ loadCart();
             return list.size();
         }
 
-        class ViewHolder extends RecyclerView.ViewHolder
-        {
+        class ViewHolder extends RecyclerView.ViewHolder {
 
             ImageView image;
 
@@ -857,20 +841,17 @@ loadCart();
         }
     }
 
-    class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder>
-    {
+    class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder> {
 
         Context context;
         List<Member> list = new ArrayList<>();
 
-        public MemberAdapter(Context context , List<Member> list)
-        {
+        public MemberAdapter(Context context, List<Member> list) {
             this.context = context;
             this.list = list;
         }
 
-        public void setData(List<Member> list)
-        {
+        public void setData(List<Member> list) {
             this.list = list;
             notifyDataSetChanged();
         }
@@ -878,8 +859,8 @@ loadCart();
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            LayoutInflater inflater = (LayoutInflater)context.getSystemService(LAYOUT_INFLATER_SERVICE);
-            View view = inflater.inflate(R.layout.member_list_model , parent , false);
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+            View view = inflater.inflate(R.layout.member_list_model, parent, false);
             return new ViewHolder(view);
         }
 
@@ -893,7 +874,6 @@ loadCart();
             holder.price.setText("\u20B9 " + item.getPrice());
 
 
-
         }
 
         @Override
@@ -901,10 +881,9 @@ loadCart();
             return list.size();
         }
 
-        class ViewHolder extends RecyclerView.ViewHolder
-        {
+        class ViewHolder extends RecyclerView.ViewHolder {
 
-            TextView duration, price , discount;
+            TextView duration, price, discount;
 
             public ViewHolder(@NonNull View itemView) {
                 super(itemView);
@@ -918,20 +897,17 @@ loadCart();
         }
     }
 
-    class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder>
-    {
+    class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
 
         Context context;
         List<Cat> list = new ArrayList<>();
 
-        public CategoryAdapter(Context context , List<Cat> list)
-        {
+        public CategoryAdapter(Context context, List<Cat> list) {
             this.context = context;
             this.list = list;
         }
 
-        public void setData(List<Cat> list)
-        {
+        public void setData(List<Cat> list) {
             this.list = list;
             notifyDataSetChanged();
         }
@@ -939,8 +915,8 @@ loadCart();
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            LayoutInflater inflater = (LayoutInflater)context.getSystemService(LAYOUT_INFLATER_SERVICE);
-            View view = inflater.inflate(R.layout.category_list_model2, parent , false);
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+            View view = inflater.inflate(R.layout.category_list_model2, parent, false);
             return new ViewHolder(view);
         }
 
@@ -949,10 +925,9 @@ loadCart();
 
             final Cat item = list.get(position);
 
-
             DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).resetViewBeforeLoading(false).build();
             ImageLoader loader = ImageLoader.getInstance();
-            loader.displayImage(item.getImage() , holder.image , options);
+            loader.displayImage(item.getImage(), holder.image, options);
 
             //holder.tag.setText(item.getTag());
             holder.title.setText(item.getName());
@@ -962,10 +937,10 @@ loadCart();
                 @Override
                 public void onClick(View view) {
 
-                    Intent intent = new Intent(context , SubCat.class);
-                    intent.putExtra("id" , item.getId());
-                    intent.putExtra("title" , item.getName());
-                    intent.putExtra("image" , item.getImage());
+                    Intent intent = new Intent(context, SubCat.class);
+                    intent.putExtra("id", item.getId());
+                    intent.putExtra("title", item.getName());
+                    intent.putExtra("image", item.getImage());
                     context.startActivity(intent);
 
                 }
@@ -978,11 +953,10 @@ loadCart();
             return list.size();
         }
 
-        class ViewHolder extends RecyclerView.ViewHolder
-        {
+        class ViewHolder extends RecyclerView.ViewHolder {
 
             ImageView image;
-            TextView tag, title , desc;
+            TextView tag, title, desc;
 
             public ViewHolder(@NonNull View itemView) {
                 super(itemView);
@@ -998,28 +972,24 @@ loadCart();
     }
 
 
-
-    class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHolder>
-    {
+    class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHolder> {
 
         Context context;
         List<String> list = new ArrayList<>();
         Dialog dialog;
 
-        public LocationAdapter(Context context , List<String> list , Dialog dialog)
-        {
+        public LocationAdapter(Context context, List<String> list, Dialog dialog) {
             this.context = context;
             this.list = list;
             this.dialog = dialog;
         }
 
 
-
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            LayoutInflater inflater = (LayoutInflater)context.getSystemService(LAYOUT_INFLATER_SERVICE);
-            View view = inflater.inflate(R.layout.search_list_model , parent , false);
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+            View view = inflater.inflate(R.layout.search_list_model, parent, false);
             return new ViewHolder(view);
         }
 
@@ -1036,7 +1006,7 @@ loadCart();
                 @Override
                 public void onClick(View view) {
 
-                    SharePreferenceUtils.getInstance().saveString("location" , item);
+                    SharePreferenceUtils.getInstance().saveString("location", item);
                     title.setText(item);
                     location.setText(item);
                     dialog.dismiss();
@@ -1051,8 +1021,7 @@ loadCart();
             return list.size();
         }
 
-        class ViewHolder extends RecyclerView.ViewHolder
-        {
+        class ViewHolder extends RecyclerView.ViewHolder {
 
             TextView title;
 
@@ -1066,8 +1035,7 @@ loadCart();
         }
     }
 
-    void getRew()
-    {
+    void getRew() {
 
         progress.setVisibility(View.VISIBLE);
 
