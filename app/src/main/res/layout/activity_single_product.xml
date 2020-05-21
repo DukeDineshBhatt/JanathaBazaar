@@ -60,7 +60,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="8dp"
-                            android:background="@drawable/primary_back_round"
+                            android:background="@drawable/accent_back_round"
                             android:padding="5dp"
                             android:id="@+id/discount"
                             android:textColor="#fff" />

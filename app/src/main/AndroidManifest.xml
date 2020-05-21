@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.app.JanathaBazaar">
+    package="com.technuoma.JanathaBazaar">
 
     <application
-        android:name="com.app.JanathaBazaar.Bean"
+        android:name="Bean"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -12,46 +12,46 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
 
-        <activity android:name="com.app.JanathaBazaar.Address"></activity>
-        <activity android:name="com.app.JanathaBazaar.Web" />
+        <activity android:name="Address"/>
+        <activity android:name="Web" />
         <activity
-            android:name="com.app.JanathaBazaar.OrderDetails"
+            android:name="OrderDetails"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.app.JanathaBazaar.OTP"
+            android:name="OTP"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.app.JanathaBazaar.Location"
+            android:name="Location"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.app.JanathaBazaar.Search"
+            android:name="Search"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.app.JanathaBazaar.Orders"
+            android:name="Orders"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.app.JanathaBazaar.Checkout"
+            android:name="Checkout"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.app.JanathaBazaar.Cart"
+            android:name="Cart"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.app.JanathaBazaar.SingleProduct"
+            android:name="SingleProduct"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.app.JanathaBazaar.Products"
+            android:name="Products"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.app.JanathaBazaar.SubCat"
+            android:name="SubCat"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.app.JanathaBazaar.Category"
+            android:name="Category"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.app.JanathaBazaar.Login"
+            android:name="Login"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.app.JanathaBazaar.Spalsh"
+            android:name="Spalsh"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -59,11 +59,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.app.JanathaBazaar.MainActivity" />
-        <activity android:name="com.app.JanathaBazaar.WebViewActivity" />
+        <activity android:name="MainActivity" />
+        <activity android:name="WebViewActivity" />
 
         <service
-            android:name="com.app.JanathaBazaar.MyFirebaseMessagingService"
+            android:name="MyFirebaseMessagingService"
             android:permission="">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -72,7 +72,7 @@
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/loggg" />
+            android:resource="@drawable/back" />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorAccent" />

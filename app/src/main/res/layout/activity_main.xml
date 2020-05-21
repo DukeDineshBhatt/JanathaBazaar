@@ -5,9 +5,10 @@
     android:id="@+id/drawer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:openDrawer="start"
     android:background="@color/shade"
     tools:context=".MainActivity"
-    tools:openDrawer="start">
+    >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -46,9 +47,10 @@
                             android:gravity="center"
                             android:orientation="vertical">
 
+
                             <TextView
                                 android:id="@+id/txtLocation"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Your location"
                                 android:textColor="#fff"
@@ -57,9 +59,9 @@
 
                             <TextView
                                 android:id="@+id/title"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Agartala"
+                                android:text="Location 1"
                                 android:textColor="#fff"
                                 android:textSize="16sp" />
 
@@ -82,7 +84,7 @@
                                     android:id="@+id/imageButton3"
                                     android:layout_width="25dp"
                                     android:layout_height="25dp"
-                                    android:background="@drawable/ic_notification"
+                                    android:background="@drawable/ic_shopping_cart"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
@@ -130,10 +132,12 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
                         android:background="@drawable/white_back_round"
-                        android:drawableLeft="@drawable/ic_search_black_24dp"
-                        android:drawablePadding="22dp"
+                        android:drawableStart="@drawable/ic_search_black_24dp"
+                        android:drawablePadding="10dp"
+                        android:focusable="false"
+                        android:clickable="false"
                         android:hint="Search your product here"
-                        android:padding="12dp" />
+                        android:padding="10dp" />
 
                 </LinearLayout>
 
@@ -143,97 +147,54 @@
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="58dp">
+                android:paddingBottom="58dp"
+                android:clipToPadding="false"
+                >
 
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/linearLayout7"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="@+id/categories"
+                    app:layout_constraintTop_toBottomOf="@+id/categories">
 
-                    <TextView
-                        android:id="@+id/textView5"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="12dp"
-                        android:layout_marginEnd="8dp"
-                        android:background="@drawable/backgrnd"
-                        android:padding="12dp"
-                        android:text="Best Selling Items"
-                        android:textAlignment="center"
-                        android:textColor="#000"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/categories" />
-
-                    <TextView
-                        android:id="@+id/textView9"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginEnd="8dp"
-                        android:background="@drawable/backgrnd"
-                        android:padding="12dp"
-                        android:text="Shop by category"
-                        android:textAlignment="center"
-                        android:textColor="#000"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/viewPager" />
-
-                    <TextView
-                        android:id="@+id/textView6"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="16dp"
-                        android:text="Become a Member"
-                        android:textColor="#000"
-                        android:visibility="gone"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/recyclerView4" />
-
-                    <TextView
-                        android:id="@+id/textView7"
+                    <com.santalu.autoviewpager.AutoViewPager
+                        android:id="@+id/viewPager"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:background="@drawable/white_shade_transparent"
-                        android:gravity="center"
-                        android:padding="6dp"
-                        android:text="READ MORE"
-                        android:textColor="#000000"
-                        android:visibility="gone"
+                        android:layout_height="0dp"
+                        app:avp_autoScroll="true"
+                        app:avp_duration="2000"
+                        app:avp_indeterminate="true"
+                        app:layout_constraintBottom_toTopOf="@+id/recyclerView2"
+                        app:layout_constraintDimensionRatio="3:1"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/recyclerView3" />
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="@+id/textView7"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        android:id="@+id/textView8"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="16dp"
-                        android:text="Today's Deals"
-                        android:textColor="#000"
-                        android:visibility="gone"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/recyclerView2" />
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:background="@drawable/dark"
+                        app:layout_constraintBottom_toBottomOf="@+id/viewPager"
+                        app:layout_constraintEnd_toEndOf="@+id/viewPager"
+                        app:layout_constraintStart_toStartOf="@+id/viewPager"
+                        app:layout_constraintTop_toTopOf="@+id/viewPager"/>
 
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerView"
+                    <me.relex.circleindicator.CircleIndicator
+                        android:id="@+id/indicator"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
                         android:layout_marginEnd="8dp"
-                        android:nestedScrollingEnabled="false"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+                        android:layout_marginBottom="8dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/viewPager"
+                        app:layout_constraintEnd_toEndOf="@+id/viewPager"
+                        app:layout_constraintStart_toStartOf="@+id/viewPager" />
+
+
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerView2"
@@ -241,10 +202,104 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:nestedScrollingEnabled="false"
-                        android:visibility="gone"
+                        app:layout_constraintBottom_toTopOf="@+id/textView9"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/viewPager" />
+
+
+                    <ImageView
+                        android:id="@+id/textView9"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:src="@drawable/cat_title2"
+                        android:gravity="center"
+                        android:scaleType="fitXY"
+                        android:adjustViewBounds="true"
+                        android:textColor="#ffffff"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@+id/categories"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/recyclerView2" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/categories"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:nestedScrollingEnabled="false"
+                        app:layout_constraintBottom_toTopOf="@+id/textView5"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+                    <ImageView
+                        android:id="@+id/textView5"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/most_loved2"
+                        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/categories" />
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:nestedScrollingEnabled="false"
+                        app:layout_constraintBottom_toTopOf="@+id/textView8"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+                    <ImageView
+                        android:id="@+id/textView8"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/today_offer2"
+                        android:visibility="visible"
+                        app:layout_constraintBottom_toTopOf="@+id/recyclerView4"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerView4"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:nestedScrollingEnabled="false"
+                        android:visibility="visible"
+                        app:layout_constraintBottom_toTopOf="@+id/textView6"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+                    <ImageView
+                        android:id="@+id/textView6"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/member2"
+                        android:visibility="visible"
+                        app:layout_constraintBottom_toTopOf="@+id/recyclerView3"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/recyclerView4" />
+
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerView3"
@@ -253,44 +308,27 @@
                         android:layout_marginTop="8dp"
                         android:nestedScrollingEnabled="false"
                         android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerView4"
-                        android:layout_width="0dp"
+
+                    <TextView
+                        android:id="@+id/textView7"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:nestedScrollingEnabled="false"
+                        android:background="@drawable/white_shade_transparent"
+                        android:gravity="center"
+                        android:padding="6dp"
+                        android:text="READ MORE"
+                        android:textColor="#000000"
                         android:visibility="gone"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toTopOf="@+id/viewPager"
+                        app:layout_constraintEnd_toStartOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+                        app:layout_constraintTop_toTopOf="@+id/viewPager" />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/categories"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:nestedScrollingEnabled="false"
-                        android:background="#fff"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView9" />
-
-                    <com.santalu.autoviewpager.AutoViewPager
-                        android:id="@+id/viewPager"
-                        android:layout_width="0dp"
-                        android:layout_height="200dp"
-                        app:avp_autoScroll="true"
-                        app:avp_duration="2000"
-                        app:avp_indeterminate="true"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -321,6 +359,7 @@
     <include
         layout="@layout/drawer_layout"
         android:layout_width="300dp"
+        android:visibility="visible"
         android:layout_height="match_parent"
         android:layout_gravity="start" />
 
