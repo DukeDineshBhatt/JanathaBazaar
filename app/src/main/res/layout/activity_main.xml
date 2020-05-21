@@ -5,8 +5,8 @@
     android:id="@+id/drawer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:openDrawer="start"
     android:background="@color/shade"
+    tools:openDrawer="start"
     tools:context=".MainActivity"
     >
 
@@ -166,7 +166,6 @@
                         app:avp_autoScroll="true"
                         app:avp_duration="2000"
                         app:avp_indeterminate="true"
-                        app:layout_constraintBottom_toTopOf="@+id/recyclerView2"
                         app:layout_constraintDimensionRatio="3:1"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
@@ -195,14 +194,12 @@
                         app:layout_constraintStart_toStartOf="@+id/viewPager" />
 
 
-
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerView2"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:nestedScrollingEnabled="false"
-                        app:layout_constraintBottom_toTopOf="@+id/textView9"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/viewPager" />
@@ -213,13 +210,12 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:src="@drawable/cat_title2"
+                        android:adjustViewBounds="true"
                         android:gravity="center"
                         android:scaleType="fitXY"
-                        android:adjustViewBounds="true"
+                        android:src="@drawable/cat_title2"
                         android:textColor="#ffffff"
                         android:textStyle="bold"
-                        app:layout_constraintBottom_toTopOf="@+id/categories"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/recyclerView2" />
@@ -230,7 +226,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:nestedScrollingEnabled="false"
-                        app:layout_constraintBottom_toTopOf="@+id/textView5"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView9" />
@@ -243,7 +238,6 @@
                         android:adjustViewBounds="true"
                         android:scaleType="fitXY"
                         android:src="@drawable/most_loved2"
-                        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/categories" />
@@ -255,10 +249,65 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:nestedScrollingEnabled="false"
-                        app:layout_constraintBottom_toTopOf="@+id/textView8"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+                    <LinearLayout
+                        android:id="@+id/linear"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="vertical"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/recyclerView">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:cardBackgroundColor="#ffffff"
+                            app:cardCornerRadius="5dp"
+                            app:cardUseCompatPadding="true">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:adjustViewBounds="true"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/banner1"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.0"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:cardBackgroundColor="#ffffff"
+                            app:cardCornerRadius="5dp"
+                            app:cardUseCompatPadding="true">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:adjustViewBounds="true"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/banner2"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.0"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+
+                        </androidx.cardview.widget.CardView>
+
+
+                    </LinearLayout>
+
 
                     <ImageView
                         android:id="@+id/textView8"
@@ -269,10 +318,9 @@
                         android:scaleType="fitXY"
                         android:src="@drawable/today_offer2"
                         android:visibility="visible"
-                        app:layout_constraintBottom_toTopOf="@+id/recyclerView4"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
+                        app:layout_constraintTop_toBottomOf="@+id/linear" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerView4"
@@ -281,7 +329,6 @@
                         android:layout_marginTop="8dp"
                         android:nestedScrollingEnabled="false"
                         android:visibility="visible"
-                        app:layout_constraintBottom_toTopOf="@+id/textView6"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView8" />
@@ -295,23 +342,50 @@
                         android:scaleType="fitXY"
                         android:src="@drawable/member2"
                         android:visibility="visible"
-                        app:layout_constraintBottom_toTopOf="@+id/recyclerView3"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/recyclerView4" />
 
 
-                    <androidx.recyclerview.widget.RecyclerView
+                    <LinearLayout
                         android:id="@+id/recyclerView3"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
+                        android:orientation="vertical"
                         android:nestedScrollingEnabled="false"
-                        android:visibility="gone"
+                        android:visibility="visible"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+                        app:layout_constraintTop_toBottomOf="@+id/textView6" >
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:cardUseCompatPadding="true"
+                            app:cardCornerRadius="5dp"
+                            app:cardBackgroundColor="#ffffff">
+
+                            <ImageView
+                                android:id="@+id/imageView4"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:scaleType="fitXY"
+                                android:adjustViewBounds="true"
+                                android:src="@drawable/memberbanner"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.0"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                />
+
+
+                        </androidx.cardview.widget.CardView>
+
+
+
+                    </LinearLayout>
 
 
                     <TextView

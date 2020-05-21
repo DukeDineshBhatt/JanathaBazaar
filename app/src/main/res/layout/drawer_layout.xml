@@ -59,22 +59,41 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:orientation="vertical"
+        android:paddingBottom="50dp"
+        android:clipToPadding="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView3">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="15dp"
-            android:text="Agartala, India (Delivery Address)"
+            android:text="Location 1"
+            android:textSize="16sp"
             android:id="@+id/home"
             />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:textSize="16sp"
+            android:text="Categories"
+            android:id="@+id/cate"
+            android:drawableStart="@drawable/ic_web"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            />
+
 
         <TextView
             android:layout_width="match_parent"
@@ -87,6 +106,7 @@
             android:layout_height="wrap_content"
             android:text="My Cart"
             android:id="@+id/cart"
+            android:textSize="16sp"
             android:drawableStart="@drawable/ic_commerce_and_shopping"
             android:drawablePadding="10dp"
             android:gravity="center_vertical"
@@ -107,6 +127,7 @@
             android:layout_height="wrap_content"
             android:padding="15dp"
             android:text="My Orders"
+            android:textSize="16sp"
             android:drawableStart="@drawable/ic_layout"
             android:drawablePadding="10dp"
             android:gravity="center_vertical"
@@ -119,9 +140,22 @@
             android:padding="15dp"
             android:drawableStart="@drawable/ic_business"
             android:drawablePadding="10dp"
+            android:textSize="16sp"
             android:gravity="center_vertical"
             android:text="My Addresses"
             android:id="@+id/address"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:drawableStart="@drawable/ic_truck"
+            android:drawablePadding="10dp"
+            android:textSize="16sp"
+            android:gravity="center_vertical"
+            android:text="Express Delivery"
+            android:id="@+id/express"
             />
 
 
@@ -158,6 +192,7 @@
             android:text="Terms &amp; Conditions"
             android:drawableStart="@drawable/ic_interface"
             android:drawablePadding="10dp"
+            android:textSize="16sp"
             android:gravity="center_vertical"
             android:visibility="visible"
             android:id="@+id/terms"
@@ -170,6 +205,7 @@
             android:padding="15dp"
             android:text="About Us"
             android:drawableStart="@drawable/ic_interface"
+            android:textSize="16sp"
             android:drawablePadding="10dp"
             android:gravity="center_vertical"
             android:visibility="visible"
@@ -178,10 +214,77 @@
 
         <TextView
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:text="Become a Member"
+            android:drawableStart="@drawable/ic_discount"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:textSize="16sp"
+            android:visibility="visible"
+            android:id="@+id/memb"
+            />
+
+
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#cdcdcd"
             />
 
+
+        <TextView
+            android:id="@+id/customer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_communications"
+            android:drawablePadding="10dp"
+            android:textSize="16sp"
+            android:gravity="center_vertical"
+            android:padding="15dp"
+            android:text="Customer Service" />
+
+        <TextView
+            android:id="@+id/faq"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/faq"
+            android:drawablePadding="10dp"
+            android:textSize="16sp"
+            android:gravity="center_vertical"
+            android:padding="15dp"
+            android:text="FAQs" />
+
+
+        <TextView
+            android:id="@+id/gift"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_commerce"
+            android:drawablePadding="10dp"
+            android:textSize="16sp"
+            android:gravity="center_vertical"
+            android:padding="15dp"
+            android:text="Gift Card" />
+
+
+        <TextView
+            android:id="@+id/noti"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_bell"
+            android:drawablePadding="10dp"
+            android:textSize="16sp"
+            android:gravity="center_vertical"
+            android:padding="15dp"
+            android:text="Notifications" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#cdcdcd"
+            />
 
 
         <TextView
@@ -190,10 +293,12 @@
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_signs"
             android:drawablePadding="10dp"
+            android:textSize="16sp"
             android:gravity="center_vertical"
             android:padding="15dp"
             android:text="Logout" />
+        </LinearLayout>
 
-    </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

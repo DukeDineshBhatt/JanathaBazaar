@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
     Toolbar toolbar;
     AutoViewPager pager;
-    RecyclerView bestSelling, offerBanners, todayDeals, member, categories;
+    RecyclerView bestSelling, offerBanners, todayDeals, categories;
     TextView readMore;
     ProgressBar progress;
     BestAdapter adapter2, adapter3;
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
     CircleIndicator indicator;
 
-    TextView login, logout, cart, orders, title, count, location, terms, about, rewards, address;
+    TextView login, logout, cart, orders, title, count, location, terms, about, rewards, address , cate;
 
     ImageButton cart1;
 
@@ -98,12 +98,13 @@ public class MainActivity extends AppCompatActivity {
         list3 = new ArrayList<>();
 
         indicator = findViewById(R.id.indicator);
+        cate = findViewById(R.id.cate);
         toolbar = findViewById(R.id.toolbar);
         pager = findViewById(R.id.viewPager);
         bestSelling = findViewById(R.id.recyclerView);
         offerBanners = findViewById(R.id.recyclerView2);
         todayDeals = findViewById(R.id.recyclerView4);
-        member = findViewById(R.id.recyclerView3);
+
         categories = findViewById(R.id.categories);
         readMore = findViewById(R.id.textView7);
         progress = findViewById(R.id.progress);
@@ -249,8 +250,6 @@ public class MainActivity extends AppCompatActivity {
         offerBanners.setAdapter(adapter4);
         offerBanners.setLayoutManager(manager3);
 
-        member.setAdapter(adapter5);
-        member.setLayoutManager(manager4);
 
         categories.setAdapter(adapter6);
         categories.setLayoutManager(manager5);
@@ -369,6 +368,20 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        cate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                    Intent intent = new Intent(MainActivity.this, Category.class);
+                    startActivity(intent);
+
+
+                drawer.closeDrawer(GravityCompat.START);
+
+            }
+        });
+
 
         orders.setOnClickListener(new View.OnClickListener() {
             @Override
