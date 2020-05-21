@@ -358,14 +358,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-               /* if (uid.length() > 0) {
+                if (uid.length() > 0) {
                     Intent intent = new Intent(MainActivity.this, Cart.class);
                     startActivity(intent);
                 } else {
                     Toast.makeText(MainActivity.this, "Please login to continue", Toast.LENGTH_SHORT).show();
                 }
 
-                drawer.closeDrawer(GravityCompat.START);*/
+                drawer.closeDrawer(GravityCompat.START);
 
             }
         });

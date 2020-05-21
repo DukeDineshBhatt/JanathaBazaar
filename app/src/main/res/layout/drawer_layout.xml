@@ -87,6 +87,9 @@
             android:layout_height="wrap_content"
             android:text="My Cart"
             android:id="@+id/cart"
+            android:drawableStart="@drawable/ic_commerce_and_shopping"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
             android:padding="15dp"
             />
 
@@ -104,6 +107,9 @@
             android:layout_height="wrap_content"
             android:padding="15dp"
             android:text="My Orders"
+            android:drawableStart="@drawable/ic_layout"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
             android:id="@+id/orders"
             />
 
@@ -111,6 +117,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="15dp"
+            android:drawableStart="@drawable/ic_business"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
             android:text="My Addresses"
             android:id="@+id/address"
             />
@@ -147,6 +156,9 @@
             android:layout_height="wrap_content"
             android:padding="15dp"
             android:text="Terms &amp; Conditions"
+            android:drawableStart="@drawable/ic_interface"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
             android:visibility="visible"
             android:id="@+id/terms"
             />
@@ -157,6 +169,9 @@
             android:layout_height="wrap_content"
             android:padding="15dp"
             android:text="About Us"
+            android:drawableStart="@drawable/ic_interface"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
             android:visibility="visible"
             android:id="@+id/about"
             />
@@ -173,6 +188,9 @@
             android:id="@+id/logout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_signs"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
             android:padding="15dp"
             android:text="Logout" />
 
