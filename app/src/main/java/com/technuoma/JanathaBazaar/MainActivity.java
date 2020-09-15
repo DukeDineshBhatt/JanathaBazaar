@@ -35,6 +35,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.javiersantos.appupdater.AppUpdater;
 import com.github.javiersantos.appupdater.enums.Display;
+import com.google.android.datatransport.BuildConfig;
 import com.technuoma.JanathaBazaar.cartPOJO.cartBean;
 import com.technuoma.JanathaBazaar.homePOJO.Banners;
 import com.technuoma.JanathaBazaar.homePOJO.Best;
