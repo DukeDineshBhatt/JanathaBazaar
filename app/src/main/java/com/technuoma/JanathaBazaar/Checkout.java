@@ -24,11 +24,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.razorpay.PaymentResultListener;
 import com.technuoma.JanathaBazaar.addressPOJO.Datum;
 import com.technuoma.JanathaBazaar.addressPOJO.addressBean;
 import com.technuoma.JanathaBazaar.checkPromoPOJO.checkPromoBean;
 import com.technuoma.JanathaBazaar.checkoutPOJO.checkoutBean;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+
+import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -48,7 +51,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
-public class Checkout extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+public class Checkout extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, PaymentResultListener {
 
     Toolbar toolbar;
     EditText name, address, area, city, pin , promo;
@@ -75,6 +78,9 @@ public class Checkout extends AppCompatActivity implements DatePickerDialog.OnDa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        com.razorpay.Checkout.preload(getApplicationContext());
+
         setContentView(R.layout.activity_checkout);
 
         list = new ArrayList<>();
@@ -127,6 +133,7 @@ public class Checkout extends AppCompatActivity implements DatePickerDialog.OnDa
 
         gtotal = String.valueOf(gt);
 
+        address.setText(SharePreferenceUtils.getInstance().getString("deliveryLocation"));
 
         progress.setVisibility(View.VISIBLE);
 
@@ -529,20 +536,57 @@ public class Checkout extends AppCompatActivity implements DatePickerDialog.OnDa
                                                 } else {
 
 
-                                                    Intent intent = new Intent(Checkout.this, WebViewActivity.class);
-                                                    intent.putExtra(AvenuesParams.ACCESS_CODE, "AVOL70EE77BF91LOFB");
-                                                    intent.putExtra(AvenuesParams.MERCHANT_ID, "133862");
-                                                    intent.putExtra(AvenuesParams.ORDER_ID, oid);
-                                                    intent.putExtra(AvenuesParams.CURRENCY, "INR");
-                                                    intent.putExtra(AvenuesParams.AMOUNT, String.valueOf(gtotal));
-                                                    //intent.putExtra(AvenuesParams.AMOUNT, "1");
-                                                    intent.putExtra("pid", SharePreferenceUtils.getInstance().getString("userid"));
+                                                    progress.setVisibility(View.VISIBLE);
 
-                                                    intent.putExtra(AvenuesParams.REDIRECT_URL, "https://mrtecks.com/grocery/api/pay/ccavResponseHandler.php");
-                                                    intent.putExtra(AvenuesParams.CANCEL_URL, "https://mrtecks.com/grocery/api/pay/ccavResponseHandler.php");
-                                                    intent.putExtra(AvenuesParams.RSA_KEY_URL, "https://mrtecks.com/grocery/api/pay/GetRSA.php");
+                                                    Bean b = (Bean) getApplicationContext();
 
-                                                    startActivityForResult(intent, 12);
+                                                    String adr = a + ", " + ar + ", " + c + ", " + p;
+
+                                                    Log.d("addd", adr);
+
+                                                    Retrofit retrofit = new Retrofit.Builder()
+                                                            .baseUrl(b.baseurl)
+                                                            .addConverterFactory(ScalarsConverterFactory.create())
+                                                            .addConverterFactory(GsonConverterFactory.create())
+                                                            .build();
+
+                                                    AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+                                                    Call<payBean> call1 = cr.getOrderId(String.valueOf(Float.parseFloat(gtotal) * 100), oid);
+
+                                                    call1.enqueue(new Callback<payBean>() {
+                                                        @Override
+                                                        public void onResponse(Call<payBean> call, Response<payBean> response) {
+
+                                                            com.razorpay.Checkout checkout = new com.razorpay.Checkout();
+                                                            checkout.setKeyID("rzp_live_DkMBHh063mz5ET");
+                                                            checkout.setImage(R.drawable.back);
+
+                                                            try {
+                                                                JSONObject options = new JSONObject();
+
+                                                                options.put("name", "Options Mobiles Pvt Ltd");
+                                                                options.put("image", "https://s3.amazonaws.com/rzp-mobile/images/rzp.png");
+                                                                options.put("order_id", response.body().getId());//from response of step 3.
+                                                                options.put("theme.color", "#3399cc");
+                                                                options.put("currency", "INR");
+                                                                options.put("amount", String.valueOf(response.body().getAmount() * 100));//pass amount in currency subunits
+                                                                //options.put("prefill.email", "gaurav.kumar@example.com");
+                                                                options.put("prefill.contact", SharePreferenceUtils.getInstance().getString("phone"));
+                                                                checkout.open(Checkout.this, options);
+                                                            } catch (Exception e) {
+                                                                Log.e("TAG", "Error in starting Razorpay Checkout", e);
+                                                            }
+
+                                                            progress.setVisibility(View.GONE);
+
+                                                        }
+
+                                                        @Override
+                                                        public void onFailure(Call<payBean> call, Throwable t) {
+                                                            progress.setVisibility(View.GONE);
+                                                        }
+                                                    });
 
 
                                                 }
@@ -845,4 +889,109 @@ public class Checkout extends AppCompatActivity implements DatePickerDialog.OnDa
         }
 
     }
+
+    @Override
+    public void onPaymentSuccess(String s) {
+
+        Log.e("TAG", "Exception in onPaymentError" + s);
+
+        try {
+            //Toast.makeText(this, "Payment Successful: " + s, Toast.LENGTH_SHORT).show();
+
+            progress.setVisibility(View.VISIBLE);
+
+            Bean b = (Bean) getApplicationContext();
+
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(b.baseurl)
+                    .addConverterFactory(ScalarsConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+
+            AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+            String n = name.getText().toString();
+            String a = address.getText().toString();
+            String ar = area.getText().toString();
+            String c = city.getText().toString();
+            String p = pin.getText().toString();
+
+            String adr = a + ", " + ar + ", " + c + ", " + p;
+
+            Log.d("addd", adr);
+
+
+            Call<checkoutBean> call = cr.buyVouchers(
+                    SharePreferenceUtils.getInstance().getString("userId"),
+                    gtotal,
+                    s,
+                    n,
+                    adr,
+                    "online",
+                    tslot,
+                    dd,
+                    pid,
+                    a,
+                    ar,
+                    c,
+                    p,
+                    isnew
+            );
+            call.enqueue(new Callback<checkoutBean>() {
+                @Override
+                public void onResponse(Call<checkoutBean> call, Response<checkoutBean> response) {
+
+                    Toast.makeText(Checkout.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                    progress.setVisibility(View.GONE);
+
+
+                    Dialog dialog = new Dialog(Checkout.this, R.style.DialogCustomTheme);
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.setCancelable(true);
+                    dialog.setContentView(R.layout.success_popup);
+                    dialog.show();
+
+
+                    TextView oi = dialog.findViewById(R.id.textView57);
+                    TextView au = dialog.findViewById(R.id.textView58);
+
+                    oi.setText(s);
+                    au.setText("₹ " + gtotal);
+
+
+                    dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                        @Override
+                        public void onCancel(DialogInterface dialog) {
+
+                            dialog.dismiss();
+                            finish();
+
+                        }
+                    });
+
+
+                }
+
+                @Override
+                public void onFailure(Call<checkoutBean> call, Throwable t) {
+                    progress.setVisibility(View.GONE);
+                }
+            });
+
+        } catch (Exception e) {
+            Log.e("TAG", "Exception in onPaymentSuccess", e);
+        }
+    }
+
+    @Override
+    public void onPaymentError(int i, String s) {
+        Log.e("TAG", "Exception in onPaymentError" + s);
+        try {
+            Toast.makeText(this, "Payment failed", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Log.e("TAG", "Exception in onPaymentError", e);
+        }
+    }
+
 }

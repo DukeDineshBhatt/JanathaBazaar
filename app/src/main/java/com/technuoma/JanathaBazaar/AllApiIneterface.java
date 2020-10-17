@@ -37,6 +37,13 @@ public interface AllApiIneterface {
     );
 
     @Multipart
+    @POST("janathabazaar/api/getOrderId.php")
+    Call<payBean> getOrderId(
+            @Part("amount") String amount,
+            @Part("receipt") String receipt
+    );
+
+    @Multipart
     @POST("janathabazaar/api/getProducts.php")
     Call<productsBean> getProducts(
             @Part("subcat2") String cat

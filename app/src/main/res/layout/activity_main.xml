@@ -34,16 +34,17 @@
                     app:subtitleTextColor="#fff"
                     app:titleTextColor="#fff">
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="#00000000"
                         android:orientation="horizontal">
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            android:layout_marginEnd="80dp"
                             android:gravity="center"
                             android:orientation="vertical">
 
@@ -61,7 +62,9 @@
                                 android:id="@+id/title"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Location 1"
+                                android:text="Getting Location ..."
+                                android:maxLines="1"
+                                android:ellipsize="end"
                                 android:textColor="#fff"
                                 android:textSize="16sp" />
 
@@ -112,7 +115,7 @@
 
                         </LinearLayout>
 
-                    </LinearLayout>
+                    </RelativeLayout>
 
                 </androidx.appcompat.widget.Toolbar>
 

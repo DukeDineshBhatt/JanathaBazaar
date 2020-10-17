@@ -1,8 +1,14 @@
 package com.technuoma.JanathaBazaar;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
+import android.content.pm.PackageManager;
+import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
@@ -24,6 +30,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -36,6 +43,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.github.javiersantos.appupdater.AppUpdater;
 import com.github.javiersantos.appupdater.enums.Display;
 import com.google.android.datatransport.BuildConfig;
+import com.google.android.gms.common.api.ResolvableApiException;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.LocationSettingsResult;
+import com.google.android.gms.location.SettingsClient;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.technuoma.JanathaBazaar.cartPOJO.cartBean;
 import com.technuoma.JanathaBazaar.homePOJO.Banners;
 import com.technuoma.JanathaBazaar.homePOJO.Best;
@@ -48,8 +69,10 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.santalu.autoviewpager.AutoViewPager;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import me.relex.circleindicator.CircleIndicator;
@@ -63,7 +86,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ResultCallback<LocationSettingsResult> {
 
     Toolbar toolbar;
     AutoViewPager pager;
@@ -84,14 +107,25 @@ public class MainActivity extends AppCompatActivity {
 
     CircleIndicator indicator;
 
-    TextView login, logout, cart, orders, title, count, location, terms, about, rewards, address , cate;
+    TextView login, logout, cart, orders, title, count, location, terms, about, rewards, address, cate;
 
     ImageButton cart1;
+
+    private FusedLocationProviderClient fusedLocationClient;
+
+    String lat = "", lng = "";
+
+    LocationSettingsRequest.Builder builder;
+    LocationRequest locationRequest;
+
+    protected static final int REQUEST_CHECK_SETTINGS = 0x1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         list = new ArrayList<>();
         list1 = new ArrayList<>();
@@ -136,70 +170,7 @@ public class MainActivity extends AppCompatActivity {
         toggle.syncState();
 
 
-        final String loc = SharePreferenceUtils.getInstance().getString("location");
 
-        if (loc.length() > 0) {
-            title.setText(loc);
-            location.setText(loc);
-        } else {
-            title.setText("Location 1");
-            location.setText("Location 1");
-            SharePreferenceUtils.getInstance().saveString("location", "Location 1");
-        }
-
-
-        title.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Dialog dialog = new Dialog(MainActivity.this);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setCancelable(true);
-                dialog.setContentView(R.layout.location_dialog);
-                dialog.show();
-
-                RecyclerView grid = dialog.findViewById(R.id.grid);
-                List<String> locs = new ArrayList<>();
-
-                GridLayoutManager manager = new GridLayoutManager(MainActivity.this, 1);
-
-                locs.add("Location 1");
-
-                LocationAdapter adapter = new LocationAdapter(MainActivity.this, locs, dialog);
-
-                grid.setAdapter(adapter);
-                grid.setLayoutManager(manager);
-
-            }
-        });
-
-        location.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                drawer.closeDrawer(GravityCompat.START);
-
-                Dialog dialog = new Dialog(MainActivity.this);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setCancelable(true);
-                dialog.setContentView(R.layout.location_dialog);
-                dialog.show();
-
-                RecyclerView grid = dialog.findViewById(R.id.grid);
-                List<String> locs = new ArrayList<>();
-
-                GridLayoutManager manager = new GridLayoutManager(MainActivity.this, 1);
-
-                locs.add("Location 1");
-
-                LocationAdapter adapter = new LocationAdapter(MainActivity.this, locs, dialog);
-
-                grid.setAdapter(adapter);
-                grid.setLayoutManager(manager);
-
-            }
-        });
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -209,19 +180,19 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.action_home:
                         break;
                     case R.id.action_categories:
-                        Intent a = new Intent(MainActivity.this,Category.class);
+                        Intent a = new Intent(MainActivity.this, Category.class);
                         startActivity(a);
                         break;
                     case R.id.action_search:
-                        Intent b = new Intent(MainActivity.this,Search.class);
+                        Intent b = new Intent(MainActivity.this, Search.class);
                         startActivity(b);
                         break;
                     case R.id.action_cart:
-                        Intent c = new Intent(MainActivity.this,Cart.class);
+                        Intent c = new Intent(MainActivity.this, Cart.class);
                         startActivity(c);
                         break;
                     case R.id.action_order:
-                        Intent d = new Intent(MainActivity.this,Orders.class);
+                        Intent d = new Intent(MainActivity.this, Orders.class);
                         startActivity(d);
                         break;
                 }
@@ -374,8 +345,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                    Intent intent = new Intent(MainActivity.this, Category.class);
-                    startActivity(intent);
+                Intent intent = new Intent(MainActivity.this, Category.class);
+                startActivity(intent);
 
 
                 drawer.closeDrawer(GravityCompat.START);
@@ -414,6 +385,9 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        createLocationRequest();
+
     }
 
 
@@ -458,6 +432,7 @@ public class MainActivity extends AppCompatActivity {
                     adapter4.setData(response.body().getObanner());
                     adapter5.setData(response.body().getMember());
                     adapter6.setData(response.body().getCat());
+
 
                 }
 
@@ -531,6 +506,11 @@ public class MainActivity extends AppCompatActivity {
         } else {
             count.setText("0");
         }
+    }
+
+    @Override
+    public void onResult(@NonNull LocationSettingsResult locationSettingsResult) {
+
     }
 
     class BannerAdapter extends FragmentStatePagerAdapter {
@@ -1019,8 +999,8 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View view) {
 
                     SharePreferenceUtils.getInstance().saveString("location", item);
-                    title.setText(item);
-                    location.setText(item);
+                    //title.setText(item);
+                    //location.setText(item);
                     dialog.dismiss();
 
                 }
@@ -1085,6 +1065,121 @@ public class MainActivity extends AppCompatActivity {
                 progress.setVisibility(View.GONE);
             }
         });
+
+    }
+
+    protected void createLocationRequest() {
+        locationRequest = LocationRequest.create();
+        locationRequest.setInterval(10000);
+        locationRequest.setFastestInterval(5000);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        builder = new LocationSettingsRequest.Builder()
+                .addLocationRequest(locationRequest);
+
+        SettingsClient client = LocationServices.getSettingsClient(this);
+        Task<LocationSettingsResponse> task = client.checkLocationSettings(builder.build());
+
+
+        task.addOnSuccessListener(this, new OnSuccessListener<LocationSettingsResponse>() {
+            @Override
+            public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
+                getLocation();
+            }
+        });
+
+        task.addOnFailureListener(this, new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                if (e instanceof ResolvableApiException) {
+                    // Location settings are not satisfied, but this can be fixed
+                    // by showing the user a dialog.
+                    try {
+                        // Show the dialog by calling startResolutionForResult(),
+                        // and check the result in onActivityResult().
+                        ResolvableApiException resolvable = (ResolvableApiException) e;
+                        resolvable.startResolutionForResult(MainActivity.this,
+                                REQUEST_CHECK_SETTINGS);
+                    } catch (IntentSender.SendIntentException sendEx) {
+                        // Ignore the error.
+                    }
+                }
+            }
+        });
+
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            // Check for the integer request code originally supplied to startResolutionForResult().
+            case REQUEST_CHECK_SETTINGS:
+                switch (resultCode) {
+                    case Activity.RESULT_OK:
+                        Log.i("TAG", "User agreed to make required location settings changes.");
+                        getLocation();
+                        break;
+                    case Activity.RESULT_CANCELED:
+                        Toast.makeText(this, "Location is required for this app", Toast.LENGTH_LONG).show();
+                        finishAffinity();
+                        break;
+                }
+                break;
+        }
+    }
+
+    void getLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+
+        LocationCallback mLocationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                if (locationResult == null) {
+                    return;
+                }
+                for (Location location2 : locationResult.getLocations()) {
+                    if (location2 != null) {
+                        //TODO: UI updates.
+                        lat = String.valueOf(location2.getLatitude());
+                        lng = String.valueOf(location2.getLongitude());
+
+                        SharePreferenceUtils.getInstance().saveString("lat", lat);
+                        SharePreferenceUtils.getInstance().saveString("lng", lng);
+
+                        Log.d("lat123", lat);
+
+                        Geocoder geocoder = new Geocoder(MainActivity.this, Locale.getDefault());
+                        List<android.location.Address> addresses = null;
+                        try {
+                            addresses = geocoder.getFromLocation(Double.parseDouble(SharePreferenceUtils.getInstance().getString("lat")), Double.parseDouble(SharePreferenceUtils.getInstance().getString("lng")), 1);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        Log.d("address", addresses.toString());
+
+                        SharePreferenceUtils.getInstance().saveString("deliveryLocation", addresses.get(0).getAddressLine(0));
+                        title.setText(addresses.get(0).getAddressLine(0));
+
+                        LocationServices.getFusedLocationProviderClient(MainActivity.this).removeLocationUpdates(this);
+
+                    }
+                }
+            }
+        };
+
+        LocationServices.getFusedLocationProviderClient(this).requestLocationUpdates(locationRequest, mLocationCallback, null);
 
     }
 
